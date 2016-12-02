@@ -10,7 +10,10 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -65,6 +68,30 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         Log.d("READFILE", sb.toString());
+
+    }
+
+    public void clickReadRaw(View v)
+    {
+        InputStream is = null;
+        InputStreamReader reader = null;
+        StringBuilder sb = new StringBuilder();
+        is = getResources().openRawResource(R.raw.test1);
+
+        char[] buffer = new char[1];
+        try {
+            reader = new InputStreamReader(is, "UTF-8");
+            while (reader.read(buffer) != -1) {
+                sb.append(new String(buffer));
+            }
+
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Log.d("RAWREAD", sb.toString());
 
     }
 }
