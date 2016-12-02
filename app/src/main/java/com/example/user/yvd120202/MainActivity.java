@@ -68,7 +68,6 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         Log.d("READFILE", sb.toString());
-
     }
 
     public void clickReadRaw(View v)
@@ -92,6 +91,25 @@ public class MainActivity extends AppCompatActivity {
         }
 
         Log.d("RAWREAD", sb.toString());
+
+    }
+
+    public void click5(View v)
+    {
+        File f3 = getExternalFilesDir("");
+        Log.d("FILE", f3.toString());
+        String wFile = f3.toString() + File.separator + "myfile2.txt";
+        Log.d("FILE", "wFile:" + wFile);
+        try {
+            FileOutputStream fos = new FileOutputStream(wFile);
+            OutputStreamWriter osw = new OutputStreamWriter(fos);  // 寫入資料
+            osw.write("She sell sea shells on the sea shore .");
+            osw.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 }
