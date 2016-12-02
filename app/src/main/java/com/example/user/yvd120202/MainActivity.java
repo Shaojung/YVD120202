@@ -1,6 +1,10 @@
 package com.example.user.yvd120202;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Environment;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +19,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
+
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -119,10 +126,41 @@ public class MainActivity extends AppCompatActivity {
     }
     public void click7(View v)
     {
-        File f3 = Environment.getExternalStorageDirectory();
-        Log.d("EXT", f3.toString());
-        File f4 = new File(f3.toString() + File.separator + "test7");
-        f4.mkdir();
+        int permission = ActivityCompat.checkSelfPermission(this,
+                WRITE_EXTERNAL_STORAGE);
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            //未取得權限，向使用者要求允許權限
+            Log.d("PERM", "沒有權限");
+
+            ActivityCompat.requestPermissions(this,
+                    new String[] {WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE},
+                    123 // RequestCode
+            );
+        }
+        else
+        {
+            Log.d("PERM", "有權限");
+            File f3 = Environment.getExternalStorageDirectory();
+            Log.d("EXT", f3.toString());
+            File f4 = new File(f3.toString() + File.separator + "test7");
+            f4.mkdir();
+        }
+
+
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 123)
+        {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+            {
+                File f3 = Environment.getExternalStorageDirectory();
+                Log.d("EXT", f3.toString());
+                File f4 = new File(f3.toString() + File.separator + "test7");
+                f4.mkdir();
+            }
+        }
+    }
 }
