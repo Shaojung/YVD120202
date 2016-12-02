@@ -1,5 +1,6 @@
 package com.example.user.yvd120202;
 
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -89,9 +90,7 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         Log.d("RAWREAD", sb.toString());
-
     }
 
     public void click5(View v)
@@ -110,6 +109,20 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
+
+    public void click6(View v)
+    {
+        File f3 = getExternalFilesDir("");
+        File f4 = new File(f3.toString() + File.separator + "test6");
+        f4.mkdir();
+    }
+    public void click7(View v)
+    {
+        File f3 = Environment.getExternalStorageDirectory();
+        Log.d("EXT", f3.toString());
+        File f4 = new File(f3.toString() + File.separator + "test7");
+        f4.mkdir();
+    }
+
 }
